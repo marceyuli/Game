@@ -2,35 +2,32 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.GL20;
 
 public class MyGdxGame extends ApplicationAdapter {
-	OrthographicCamera camera;
-	SpriteBatch batch;
-	Sprite sprite;
-	@Override
-	public void create () {
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-		batch = new SpriteBatch();
-		sprite = new Sprite(new Texture("data/plane.jpg"));
-		sprite.setPosition(-350, -200);
-	}
+    ShapeRenderer shape;
+    int x = 50;
+    int y = 50;
+    int xSpeed = 5;
 
-	@Override
-	public void render () {
-		ScreenUtils.clear(1, 0, 0, 1);
-		batch.setProjectionMatrix(camera.combined);
-		
-		batch.begin();
-		sprite.draw(batch);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-	}
+    @Override
+    public void create () {
+        shape = new ShapeRenderer();
+    }
+
+    @Override
+    public void render() {
+    	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); 
+    	 x += xSpeed;
+    	    if (x > Gdx.graphics.getWidth()) {
+    	        xSpeed = -5;
+    	    }
+    	    if (x < 0) {
+    	        xSpeed = 5;
+    	    }
+        shape.begin(ShapeRenderer.ShapeType.Filled);
+        shape.circle(x, y, 50);
+        shape.end();
+    }
 }
