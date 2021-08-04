@@ -15,7 +15,7 @@ public class MyGdxGame extends ApplicationAdapter {
     @Override
     public void create () {
         shape = new ShapeRenderer();
-        ball = new Ball(150, 200, 70, 12, 5);
+        ball = new Ball(150, 200, 80, 5, 5);
     }
 
     @Override
