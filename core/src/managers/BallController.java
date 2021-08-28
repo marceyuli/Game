@@ -90,6 +90,7 @@ public class BallController {
 		if (ball.getY() < 0) {
 			
 			ball.loseLife();
+		//	ball.setPosition(table.getX()+30, table.getY()+30);
 			if(ball.getLives()==0) {
 				ball.alive = false;
 			stage.addAction(Actions.sequence(Actions.delay(0.25f), Actions.run(new Runnable() {
