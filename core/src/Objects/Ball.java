@@ -1,71 +1,84 @@
 package Objects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Ball extends Actor {
-	
-    int x;
-    int y;
-    int size;
-    int xSpeed;
-    int ySpeed;
-    private int leftLimit;
-    private int rightLimit;
-    private int topLimit;
-    private int bottomLimit;
-    Color color = Color.WHITE;
+public class Ball extends Actor{
+	private Texture ball;
+	int varX ;
+	int varY ;
+    public Rectangle ballRect;
+    public boolean alive;
+	private int score;
+	private int extraLives;
+	public int requiredScore;
 
-    public Ball(int x, int y, int size, int xSpeed, int ySpeed) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
-    }
-    public void update() {
-        x += xSpeed;
-        y += ySpeed;
-        if (x - size < 0 || x + size > Gdx.graphics.getWidth()) {
-            xSpeed = -xSpeed;
+	public Ball(Texture ball) {
+		this.ball = ball;
+		varX=200;
+		varY=200 ;
+		setSize(ball.getWidth(), ball.getHeight());
+		alive = true;
+
+		this.ballRect = new Rectangle(getX(), getY(), getWidth(), getHeight());
+		score = 0;
+		extraLives = 3;
+		requiredScore = 10;
+	}
+	
+	public void draw(Batch batch, float parentAlpha) {
+		if(!alive) {
+			
+		}
+		batch.draw(ball, getX(), getY());	}
+
+	@Override
+	public void act(float delta) {
+		if(!alive) {
+			return;
+		}
+		setX(getX() + varX * delta);
+		setY(getY() + varY *delta);
+		ballRect.setX(getX());
+		ballRect.setY(getY());
+		if (  getX()  <0 || getX() + ball.getWidth() > Gdx.graphics.getWidth()) {
+			varX = -varX;
         }
-        if (y - size < 0 || (y + size) > Gdx.graphics.getHeight()) {
-            ySpeed = -ySpeed;
+		if (getY() <0 ||getY() + ball.getHeight() > Gdx.graphics.getHeight()) {
+			varY = -varY;
         }
-    }
-    public void draw(ShapeRenderer shape) {
-        shape.circle(x, y, size);
-        shape.setColor(color);
-        shape.circle(x, y, size);
-    }
-    public void checkCollision(Table table) {
-    	if (collidesWith(table)) {
-            this.ySpeed = -this.ySpeed;
-        }
-    }
-    public void checkCollision(Brick brick){
-        if (collidesWith(brick)) {
-            this.ySpeed = -this.ySpeed;
-            brick.destroyed = true;
-        }
-    }
-    private boolean collidesWith(Table table) {
-    	if ((x-size <= table.x+table.ancho) && (table.x+table.ancho <= (x + size) + table.ancho) &&
-                (y + size >= table.y - table.alto) && ((table.y - table.alto) >= ((y - size) - table.alto))) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-  
-    private boolean collidesWith(Brick brick){
-        if ((x-size <= brick.x+brick.width) &&(brick.x+brick.width <= x+size + brick.width) &&
-        		y + size >= brick.y && brick.y >= y - size - brick.height) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+	}
+
+	public int getVarX() {
+		return varX;
+	}
+
+	public void setVarX(int varX) {
+		this.varX = varX;
+	}
+
+	public int getVarY() {
+		return varY;
+	}
+
+	public void setVarY(int varY) {
+		this.varY = varY;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	public int getLives() {
+		return extraLives;
+	}
+	public void loseLife() {
+		extraLives--;
+		score=0;
+	}
+	public void incrementScore(int l) {
+		score +=l;
+	}
 }

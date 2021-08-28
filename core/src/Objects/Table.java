@@ -1,30 +1,44 @@
 package Objects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Table {
-	float x;
-	float y;
-	float z;
-	float ancho;
-	float alto;
-	float profundo;
+public class Table extends Actor{
+	private Texture table;
+	public Rectangle tableRect;
 	
 	
-	public Table(float x,float y,float z,float ancho,float alto,float profundo) {
-		this.x= x;
-		this.y= y;
-		this.z= z;
-		this.ancho= ancho;
-		this.alto= alto;
-		this.profundo = profundo;
+	public Table(Texture table) {
+		this.table = table;
+		setSize(table.getWidth(), table.getHeight());
+		this.tableRect = new Rectangle(getX(), getY(), getWidth(), getHeight());
+		
 	}
-	  public void update(){
-	        this.x = (Gdx.input.getX() );
-	    }
 	
-	public void draw(ShapeRenderer shape) {
-        shape.box(x, y, z, ancho, alto, profundo);
-    }
+	@Override
+	public void act(float delta) {
+		int maxX = (int) (Gdx.graphics.getWidth() - table.getWidth());
+		
+		super.act(delta);
+		
+		tableRect.setX(getX());
+		tableRect.setY(getY());
+		
+		if(getX() > maxX){
+	        setX(maxX);}
+		
+	}
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		batch.draw(table, getX(), getY());
+	}
+	
+	public void move(float x) {
+		
+		setX(x);
+	}
+	
 }

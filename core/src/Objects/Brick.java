@@ -1,17 +1,22 @@
 package Objects;
 
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
-public class Brick {
-    int x,y,width,height;
-    public boolean destroyed = false;
-    public Brick(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-    }
-    public void draw(ShapeRenderer shape){
-        shape.rect(x, y, width, height);
-    }
+public class Brick extends Actor {
+	protected Texture brick;
+	public Rectangle brickRect;
+	
+	public Brick(Texture brick) {
+		this.brick = brick;
+		setSize(brick.getWidth(),brick.getHeight());
+		this.brickRect = new Rectangle(getX(), getY(), getWidth(), getHeight());
+	}
+	
+	public void draw(Batch batch, float parentAlpha) {
+		batch.draw(brick, getX(), getY());
+	}
+
 }
